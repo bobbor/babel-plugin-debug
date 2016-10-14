@@ -1,0 +1,19 @@
+{
+  "name": "babel-plugin-debug",
+  "version": "1.0.0",
+  "description": "Babel plugin that replaces the \"debug\" keyword with an condition for dev- and debug-specific code.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "babel-plugin",
+    "dev",
+    "debug"
+  ],
+  "author": "Philipp Paul<philipp.paul@deliveryhero.at>",
+  "devDependencies": {
+    "babel-core": "^6.17.0",
+    "mocha": "^3.1.2"
+  }
+}
