@@ -1,3 +1,3 @@
-if (process.env.DEBUG === true) {
+if (process.env.DEBUG === 'true') {
   'foo';
 }
