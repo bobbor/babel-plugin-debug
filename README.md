@@ -1,5 +1,7 @@
 # babel-plugin-debug
 
+[![Build Status](https://travis-ci.org/bobbor/babel-plugin-debug.svg?branch=master)](https://travis-ci.org/bobbor/babel-plugin-debug)
+
 this plugin replaces debug-statements with environment related if-statements which can be garbage-collected by minifiers
   
 ## how it works
