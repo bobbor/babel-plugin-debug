@@ -1,1 +1,1 @@
-if (process.env.DEBUG === "name") {}
+if (process.env.DEBUG === true || process.env.DEBUG === "name") {}
