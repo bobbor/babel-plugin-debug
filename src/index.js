@@ -11,17 +11,19 @@
 module.exports = function (babel) {
   var t = babel.types;
 
-  const ifDebug = t.binaryExpression(
-      '===',
+  var debugEnv = t.memberExpression(
       t.memberExpression(
-          t.memberExpression(
-              t.identifier('process'),
-              t.identifier('env'),
-              false
-          ),
-          t.identifier('DEBUG'),
+          t.identifier('process'),
+          t.identifier('env'),
           false
       ),
+      t.identifier('DEBUG'),
+      false
+  );
+
+  var ifDebug = t.binaryExpression(
+      '===',
+      debugEnv,
       t.stringLiteral('true')
   );
 
@@ -38,15 +40,7 @@ module.exports = function (babel) {
             ifDebug,
             t.binaryExpression(
                 '===',
-                t.memberExpression(
-                    t.memberExpression(
-                        t.identifier('process'),
-                        t.identifier('env'),
-                        false
-                    ),
-                    t.identifier('DEBUG'),
-                    false
-                ),
+                debugEnv,
                 t.stringLiteral(name)
             )
         ),
