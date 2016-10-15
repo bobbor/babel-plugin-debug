@@ -4,6 +4,7 @@
   "description": "Babel plugin that replaces the \"debug\" keyword with an condition for dev- and debug-specific code.",
   "main": "src/index.js",
   "scripts": {
+    "example": "example/index.js && DEBUG=scope example/index.js && DEBUG=true example/index.js",
     "test": "mocha"
   },
   "keywords": [
@@ -14,6 +15,7 @@
   "author": "Philipp Paul<philipp.paul@deliveryhero.at>",
   "devDependencies": {
     "babel-core": "^6.17.0",
+    "babel-register": "^6.16.3",
     "mocha": "^3.1.2"
   }
 }
