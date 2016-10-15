@@ -1,0 +1,3 @@
+debug_name: {
+  'foo';
+}
