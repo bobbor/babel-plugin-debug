@@ -11,28 +11,38 @@
 module.exports = function(babel) {
     var t = babel.types;
 
-    var DEV_EXPRESSION = t.ifStatement(
-        t.binaryExpression(
-            '===',
-            t.memberExpression(
+    function replacement(body, scope) {
+        return t.ifStatement(
+            t.binaryExpression(
+                '===',
                 t.memberExpression(
-                    t.identifier('process'),
-                    t.identifier('env'),
+                    t.memberExpression(
+                        t.identifier('process'),
+                        t.identifier('env'),
+                        false
+                    ),
+                    t.identifier('DEBUG'),
                     false
                 ),
-                t.identifier('DEBUG'),
-                false
+                scope
+                    ? t.stringLiteral(scope)
+                    : t.booleanLiteral(true)
             ),
-            t.booleanLiteral(true)
-        ),
-        t.emptyStatement()
-    );
+            body
+        );
+    }
 
     return {
         visitor: {
-            Identifier: function(path) {
-                if (t.isIdentifier(path.node, { name: 'debug'})) {
-                    path.replaceWith(DEV_EXPRESSION);
+            LabeledStatement: function(path) {
+                if(path.node.label.name === 'debug') {
+                    path.replaceWith(replacement(path.node.body))
+                } else if(/^debug_([a-z_]+)$/g.test(path.node.label.name)) {
+                    var match = /^debug_([a-z_]+)$/g.exec(path.node.label.name);
+                    path.replaceWith(replacement(
+                        path.node.body,
+                        match[1]
+                    ))
                 }
             }
         }
