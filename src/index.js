@@ -8,11 +8,31 @@
  * minifiers and to make it easier to write debug and dev-specific code.
  */
 
-module.exports = function(babel) {
-    var t = babel.types;
+module.exports = function (babel) {
+  var t = babel.types;
 
-    function replacement(body, scope) {
-        return t.ifStatement(
+  function unnamedReplacement(body) {
+    return t.ifStatement(
+        t.binaryExpression(
+            '===',
+            t.memberExpression(
+                t.memberExpression(
+                    t.identifier('process'),
+                    t.identifier('env'),
+                    false
+                ),
+                t.identifier('DEBUG'),
+                false
+            ),
+            t.stringLiteral('true')
+        ),
+        body
+    );
+  }
+
+  function namedReplacement(body, name) {
+    return t.ifStatement(
+        t.logicalExpression('||',
             t.binaryExpression(
                 '===',
                 t.memberExpression(
@@ -24,27 +44,39 @@ module.exports = function(babel) {
                     t.identifier('DEBUG'),
                     false
                 ),
-                scope
-                    ? t.stringLiteral(scope)
-                    : t.booleanLiteral(true)
+                t.stringLiteral('true')
             ),
-            body
-        );
-    }
+            t.binaryExpression(
+                '===',
+                t.memberExpression(
+                    t.memberExpression(
+                        t.identifier('process'),
+                        t.identifier('env'),
+                        false
+                    ),
+                    t.identifier('DEBUG'),
+                    false
+                ),
+                t.stringLiteral(name)
+            )
+        ),
+        body
+    );
+  }
 
-    return {
-        visitor: {
-            LabeledStatement: function(path) {
-                if(path.node.label.name === 'debug') {
-                    path.replaceWith(replacement(path.node.body))
-                } else if(/^debug_([a-z_]+)$/g.test(path.node.label.name)) {
-                    var match = /^debug_([a-z_]+)$/g.exec(path.node.label.name);
-                    path.replaceWith(replacement(
-                        path.node.body,
-                        match[1]
-                    ))
-                }
-            }
+  return {
+    visitor: {
+      LabeledStatement: function (path) {
+        if (path.node.label.name === 'debug') {
+          path.replaceWith(unnamedReplacement(path.node.body))
+        } else if (/^debug_([a-z_]+)$/g.test(path.node.label.name)) {
+          var match = /^debug_([a-z_]+)$/g.exec(path.node.label.name);
+          path.replaceWith(namedReplacement(
+              path.node.body,
+              match[1]
+          ))
         }
-    };
+      }
+    }
+  };
 };
