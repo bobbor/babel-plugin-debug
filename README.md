@@ -1,6 +1,9 @@
 # babel-plugin-debug
 
 [![Build Status](https://travis-ci.org/bobbor/babel-plugin-debug.svg?branch=master)](https://travis-ci.org/bobbor/babel-plugin-debug)
+[![npm](https://img.shields.io/npm/v/babel-plugin-debug.svg)](https://npmjs.com/package/babel-plugin-debug)
+[![Code Climate](https://codeclimate.com/github/bobbor/babel-plugin-debug/badges/gpa.svg)](https://codeclimate.com/github/bobbor/babel-plugin-debug)
+[![NPM](https://nodei.co/npm/babel-plugin-debug.png)](https://nodei.co/npm/babel-plugin-debug/)
 
 this plugin replaces debug-statements with environment related if-statements which can be garbage-collected by minifiers
   
