@@ -11,21 +11,23 @@
 module.exports = function (babel) {
   var t = babel.types;
 
+  const ifDebug = t.binaryExpression(
+      '===',
+      t.memberExpression(
+          t.memberExpression(
+              t.identifier('process'),
+              t.identifier('env'),
+              false
+          ),
+          t.identifier('DEBUG'),
+          false
+      ),
+      t.stringLiteral('true')
+  );
+
   function unnamedReplacement(body) {
     return t.ifStatement(
-        t.binaryExpression(
-            '===',
-            t.memberExpression(
-                t.memberExpression(
-                    t.identifier('process'),
-                    t.identifier('env'),
-                    false
-                ),
-                t.identifier('DEBUG'),
-                false
-            ),
-            t.stringLiteral('true')
-        ),
+        ifDebug,
         body
     );
   }
@@ -33,19 +35,7 @@ module.exports = function (babel) {
   function namedReplacement(body, name) {
     return t.ifStatement(
         t.logicalExpression('||',
-            t.binaryExpression(
-                '===',
-                t.memberExpression(
-                    t.memberExpression(
-                        t.identifier('process'),
-                        t.identifier('env'),
-                        false
-                    ),
-                    t.identifier('DEBUG'),
-                    false
-                ),
-                t.stringLiteral('true')
-            ),
+            ifDebug,
             t.binaryExpression(
                 '===',
                 t.memberExpression(
@@ -68,13 +58,13 @@ module.exports = function (babel) {
     visitor: {
       LabeledStatement: function (path) {
         if (path.node.label.name === 'debug') {
-          path.replaceWith(unnamedReplacement(path.node.body))
+          path.replaceWith(unnamedReplacement(path.node.body));
         } else if (/^debug_([a-z_]+)$/g.test(path.node.label.name)) {
           var match = /^debug_([a-z_]+)$/g.exec(path.node.label.name);
           path.replaceWith(namedReplacement(
               path.node.body,
               match[1]
-          ))
+          ));
         }
       }
     }
