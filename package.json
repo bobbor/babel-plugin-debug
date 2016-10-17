@@ -5,10 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "example": "example/index.js && DEBUG=scope example/index.js && DEBUG=true example/index.js",
-    "test": "mocha",
-    "posttest": "npm run cover",
-    "cover": "istanbul cover _mocha --report lcovonly -- -R spec",
-    "postcover": "codeclimate-test-reporter < ./coverage/lcov.info  && rm -rf ./coverage"
+    "test": "istanbul cover _mocha --report lcovonly -- -R spec",
+    "posttest": "codeclimate-test-reporter < ./coverage/lcov.info  && rm -rf ./coverage"
   },
   "keywords": [
     "babel-plugin",
