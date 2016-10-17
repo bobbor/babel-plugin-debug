@@ -11,25 +11,29 @@
 module.exports = function (babel) {
   var t = babel.types;
 
-  var debugEnv = t.memberExpression(
-      t.memberExpression(
-          t.identifier('process'),
-          t.identifier('env'),
-          false
-      ),
-      t.identifier('DEBUG'),
-      false
-  );
+  function debugEnv() {
+    return t.memberExpression(
+        t.memberExpression(
+            t.identifier('process'),
+            t.identifier('env'),
+            false
+        ),
+        t.identifier('DEBUG'),
+        false
+    );
+  }
 
-  var ifDebug = t.binaryExpression(
-      '===',
-      debugEnv,
-      t.stringLiteral('true')
-  );
+  function ifDebug() {
+    return t.binaryExpression(
+        '===',
+        debugEnv(),
+        t.stringLiteral('true')
+    );
+  }
 
   function unnamedReplacement(body) {
     return t.ifStatement(
-        ifDebug,
+        ifDebug(),
         body
     );
   }
@@ -37,10 +41,10 @@ module.exports = function (babel) {
   function namedReplacement(body, name) {
     return t.ifStatement(
         t.logicalExpression('||',
-            ifDebug,
+            ifDebug(),
             t.binaryExpression(
                 '===',
-                debugEnv,
+                debugEnv(),
                 t.stringLiteral(name)
             )
         ),
