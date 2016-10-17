@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "example": "example/index.js && DEBUG=scope example/index.js && DEBUG=true example/index.js",
-    "test": "mocha"
+    "test": "mocha",
+    "cover": "istanbul cover _mocha"
   },
   "keywords": [
     "babel-plugin",
@@ -17,6 +18,7 @@
     "babel-core": "^6.17.0",
     "babel-register": "^6.16.3",
     "eslint": "^3.8.0",
+    "istanbul": "^0.4.5",
     "mocha": "^3.1.2"
   }
 }
