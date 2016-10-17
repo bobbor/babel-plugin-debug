@@ -79,4 +79,10 @@ then you can enable these with the following
 
     DEBUG=myblock webpack
 
-**NOTE**: all scopes are enabled when used with `DEBUG=true`
+this generates the following JS
+
+    if(process.env.DEBUG === 'true' || process.env.DEBUG === 'myblock') {
+    
+    }
+
+**NOTE**: all scopes are enabled when used with `DEBUG=true` (obviously)
