@@ -14,6 +14,7 @@
     "dev",
     "debug"
   ],
+  "repository": "bobbor/babel-plugin-debug",
   "author": "Philipp Paul<philipp.paul@deliveryhero.at>",
   "devDependencies": {
     "babel-core": "^6.17.0",
